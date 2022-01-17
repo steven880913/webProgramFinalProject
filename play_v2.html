@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>拼圖遊戲</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body{
+                background-color: #86c3e9;
+            }
+            .storeOut{
+                position: absolute;
+                background-color: rgb(160, 75, 75);
+                width: 30%;
+                height: 75%;
+                top: 1%;
+                left: 1%;
+                border-radius: 20px;
+                margin: 0px;
+                padding: 10px;
+                border: 0px;
+                border-style: solid;
+                border-color: black;
+            }
+            .storeIn{
+                position: absolute;
+                width: 90%;
+                height: 90%;
+                overflow: auto;
+                margin: 20px;
+                padding: 0;
+                border: 0;
+                border-radius: 20px;
+                background-color: rgb(252, 231, 245);
+            }
+            .time{
+                position: absolute;
+                width: 30%;
+                height: 15%;
+                background-color: white;
+                left: 1%;
+                top: 80%;
+                margin: 0px;
+                padding: 10px;
+                border: 1px;
+                border-style: solid;
+                border-color: black;
+                border-radius: 20px;
+                text-align: center;
+                font-size: 75px;
+            }
+            .head{
+                position: absolute;
+                width: 65%;
+                top: 3%;
+                right: 1%;
+                text-align: center;
+                font-size: 30px;
+            }
+            .result{
+                position: absolute;
+                width: 630px;
+                height: 630px;
+                background-color: rgb(255, 232, 197);
+                bottom: 10px;
+                right: 200px;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                border-radius: 20px;
+            }
+            .putPic3{
+                float: left;
+                margin: 5px;
+                width: calc(630px/3);
+                height: calc(630px/3);
+            }
+            .putPic5{
+                float: left;
+                margin: 5px;
+                width: calc(630px/5);
+                height: calc(630px/5);
+            }
+            .putPic7{
+                float: left;
+                margin: 5px;
+                width: calc(630px/7);
+                height: calc(630px/7);
+            }
+            .box3{
+                background-color: rgb(255, 232, 197);
+                width: calc(630px/3);
+                height: calc(630px/3);
+                float: left;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                border-color: white;
+                
+            }
+            .box5{
+                background-color: rgb(255, 232, 197);
+                width: calc(630px/5);
+                height: calc(630px/5);
+                float: left;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                border-color: white;
+                border-radius: 20px;
+            }
+            .box7{
+                background-color: rgb(255, 232, 197);
+                width: calc(630px/7);
+                height: calc(630px/7);
+                float: left;
+                margin: 0px;
+                padding: 0px;
+                border: 0px;
+                border-color: white;
+                border-radius: 20px;
+            }
+            .img3{
+                width: calc(630px/3);
+                height: calc(630px/3);
+            }
+            .img5{
+                width: calc(630px/5);
+                height: calc(630px/5);
+            }
+            .img7{
+                width: calc(630px/7);
+                height: calc(630px/7);
+            }
+        </style>
+        <script>
+            var isInterval = false;
+            var interval;
+            var min = 0;
+            var sec = 0;
+
+            //打亂的拼圖array
+            var rightPic;
+            var currentLevel;
+            var currentPuzNum;
+
+            //難易度總共幾張拼圖
+            var diff;       
+            var picSrc = "";
+            var storeInOutput = "";
+            var resultOutput = "";
+
+            //拼圖圖片連結
+            var easyPic1 = ["https://upload.cc/i1/2022/01/17/GgyTb9.jpg", "https://upload.cc/i1/2022/01/17/8JxWeV.jpg",
+                "https://upload.cc/i1/2022/01/17/NGLy6H.jpg", "https://upload.cc/i1/2022/01/17/bALhat.jpg",
+                "https://upload.cc/i1/2022/01/17/miZ7J2.jpg", "https://upload.cc/i1/2022/01/17/m7rYWi.jpg",
+                "https://upload.cc/i1/2022/01/17/uwtVQF.jpg", "https://upload.cc/i1/2022/01/17/hNb4X5.jpg",
+                "https://upload.cc/i1/2022/01/17/I8ZlaJ.jpg"];
+            var easyPic2 = ["https://upload.cc/i1/2022/01/17/pqn9Al.jpg", "https://upload.cc/i1/2022/01/17/pFe730.jpg",
+                "https://upload.cc/i1/2022/01/17/vDXTzt.jpg", "https://upload.cc/i1/2022/01/17/nTKCf4.jpg", 
+                "https://upload.cc/i1/2022/01/17/3GERjc.jpg", "https://upload.cc/i1/2022/01/17/bPKtB5.jpg", 
+                "https://upload.cc/i1/2022/01/17/hwpQ9W.jpg", "https://upload.cc/i1/2022/01/17/ZRge8i.jpg", 
+                "https://upload.cc/i1/2022/01/17/7CdDex.jpg"];
+            var easyPic3 = ["https://upload.cc/i1/2022/01/17/yB3VIt.jpg", "https://upload.cc/i1/2022/01/17/UaGSJL.jpg", 
+                "https://upload.cc/i1/2022/01/17/bCgc9p.jpg", "https://upload.cc/i1/2022/01/17/iE8d1g.jpg", 
+                "https://upload.cc/i1/2022/01/17/rF6mvB.jpg", "https://upload.cc/i1/2022/01/17/trPALB.jpg", 
+                "https://upload.cc/i1/2022/01/17/purxqk.jpg", "https://upload.cc/i1/2022/01/17/K6gGAy.jpg", 
+                "https://upload.cc/i1/2022/01/17/eK0jnX.jpg"];
+            var mediumPic1 = ["https://upload.cc/i1/2022/01/17/lIJefB.jpg", "https://upload.cc/i1/2022/01/17/8c0prl.jpg", 
+                "https://upload.cc/i1/2022/01/17/stZqfa.jpg", "https://upload.cc/i1/2022/01/17/NCXRWU.jpg", 
+                "https://upload.cc/i1/2022/01/17/Gijgqp.jpg", "https://upload.cc/i1/2022/01/17/8eWkal.jpg", 
+                "https://upload.cc/i1/2022/01/17/1xKdXc.jpg", "https://upload.cc/i1/2022/01/17/wnIetf.jpg", 
+                "https://upload.cc/i1/2022/01/17/3qgHMl.jpg", "https://upload.cc/i1/2022/01/17/rO2DJ5.jpg",
+                "https://upload.cc/i1/2022/01/17/xV8MiA.jpg", "https://upload.cc/i1/2022/01/17/GTQSVh.jpg", 
+                "https://upload.cc/i1/2022/01/17/9WOybK.jpg", "https://upload.cc/i1/2022/01/17/7lFE3k.jpg", 
+                "https://upload.cc/i1/2022/01/17/OgKvhC.jpg", "https://upload.cc/i1/2022/01/17/wFP5HL.jpg", 
+                "https://upload.cc/i1/2022/01/17/jcf0a5.jpg", "https://upload.cc/i1/2022/01/17/U4Kd3p.jpg", 
+                "https://upload.cc/i1/2022/01/17/xVId2S.jpg", "https://upload.cc/i1/2022/01/17/xRlC5m.jpg", 
+                "https://upload.cc/i1/2022/01/17/O4aTCX.jpg", "https://upload.cc/i1/2022/01/17/947hcQ.jpg", 
+                "https://upload.cc/i1/2022/01/17/AuRvDr.jpg", "https://upload.cc/i1/2022/01/17/CXfpqo.jpg", 
+                "https://upload.cc/i1/2022/01/17/mnctYw.jpg"];
+            var mediumPic2 = ["https://upload.cc/i1/2022/01/17/Fna9V8.jpg", "https://upload.cc/i1/2022/01/17/Jsl9VO.jpg", 
+                "https://upload.cc/i1/2022/01/17/SvRj0J.jpg", "https://upload.cc/i1/2022/01/17/pIFmLR.jpg", 
+                "https://upload.cc/i1/2022/01/17/KBVFXe.jpg", "https://upload.cc/i1/2022/01/17/caN6s7.jpg", 
+                "https://upload.cc/i1/2022/01/17/as4riA.jpg", "https://upload.cc/i1/2022/01/17/DJQ0T4.jpg", 
+                "https://upload.cc/i1/2022/01/17/od6sZF.jpg", "https://upload.cc/i1/2022/01/17/QjAwf9.jpg", 
+                "https://upload.cc/i1/2022/01/17/StVb8Z.jpg", "https://upload.cc/i1/2022/01/17/oH9Nri.jpg", 
+                "https://upload.cc/i1/2022/01/17/1feBYH.jpg", "https://upload.cc/i1/2022/01/17/vI3hO2.jpg", 
+                "https://upload.cc/i1/2022/01/17/jfDJ5N.jpg", "https://upload.cc/i1/2022/01/17/7Mbg9X.jpg", 
+                "https://upload.cc/i1/2022/01/17/PbGDOo.jpg", "https://upload.cc/i1/2022/01/17/bjmC2p.jpg", 
+                "https://upload.cc/i1/2022/01/17/SB7GkN.jpg", "https://upload.cc/i1/2022/01/17/dpfAOM.jpg", 
+                "https://upload.cc/i1/2022/01/17/o9pWbD.jpg", "https://upload.cc/i1/2022/01/17/8Olhns.jpg", 
+                "https://upload.cc/i1/2022/01/17/x7pcu8.jpg", "https://upload.cc/i1/2022/01/17/ObCrzm.jpg", 
+                "https://upload.cc/i1/2022/01/17/nIXoFL.jpg"];
+            var mediumPic3 = ["https://upload.cc/i1/2022/01/17/OscGXt.jpg", "https://upload.cc/i1/2022/01/17/ipFhJ8.jpg", 
+                "https://upload.cc/i1/2022/01/17/yfJvgq.jpg", "https://upload.cc/i1/2022/01/17/ecplfJ.jpg", 
+                "https://upload.cc/i1/2022/01/17/sXKQwJ.jpg", "https://upload.cc/i1/2022/01/17/dvwPae.jpg", 
+                "https://upload.cc/i1/2022/01/17/kaJGvm.jpg", "https://upload.cc/i1/2022/01/17/RhJvHY.jpg", 
+                "https://upload.cc/i1/2022/01/17/gEzKy3.jpg", "https://upload.cc/i1/2022/01/17/WbtFc5.jpg", 
+                "https://upload.cc/i1/2022/01/17/pLOtxC.jpg", "https://upload.cc/i1/2022/01/17/wyqBQO.jpg", 
+                "https://upload.cc/i1/2022/01/17/IHUKJn.jpg", "https://upload.cc/i1/2022/01/17/LH3Stc.jpg", 
+                "https://upload.cc/i1/2022/01/17/0cBJIz.jpg", "https://upload.cc/i1/2022/01/17/1JaSYh.jpg", 
+                "https://upload.cc/i1/2022/01/17/XJQqhc.jpg", "https://upload.cc/i1/2022/01/17/3wQaHP.jpg", 
+                "https://upload.cc/i1/2022/01/17/CIJuKw.jpg", "https://upload.cc/i1/2022/01/17/teujSM.jpg", 
+                "https://upload.cc/i1/2022/01/17/olMkgh.jpg", "https://upload.cc/i1/2022/01/17/DgZckt.jpg", 
+                "https://upload.cc/i1/2022/01/17/ktfG6D.jpg", "https://upload.cc/i1/2022/01/17/VpGMOK.jpg", 
+                "https://upload.cc/i1/2022/01/17/6uLInw.jpg"];
+            var hardPic1 = ["https://upload.cc/i1/2022/01/17/9Wn7eA.jpg", "https://upload.cc/i1/2022/01/17/waAIbR.jpg", 
+                "https://upload.cc/i1/2022/01/17/0cJ83U.jpg", "https://upload.cc/i1/2022/01/17/Uwjyu6.jpg", 
+                "https://upload.cc/i1/2022/01/17/BtSHTj.jpg", "https://upload.cc/i1/2022/01/17/k34dsg.jpg", 
+                "https://upload.cc/i1/2022/01/17/zah7fg.jpg", "https://upload.cc/i1/2022/01/17/bYZ6DE.jpg", 
+                "https://upload.cc/i1/2022/01/17/p2fc73.jpg", "https://upload.cc/i1/2022/01/17/jSe14N.jpg", 
+                "https://upload.cc/i1/2022/01/17/DlmqA3.jpg", "https://upload.cc/i1/2022/01/17/ZuV3Dc.jpg", 
+                "https://upload.cc/i1/2022/01/17/uJXzfT.jpg", "https://upload.cc/i1/2022/01/17/ILHeEq.jpg", 
+                "https://upload.cc/i1/2022/01/17/cXeP4L.jpg", "https://upload.cc/i1/2022/01/17/KtXcgi.jpg", 
+                "https://upload.cc/i1/2022/01/17/h0zgO9.jpg", "https://upload.cc/i1/2022/01/17/RpulbQ.jpg", 
+                "https://upload.cc/i1/2022/01/17/o1XOFy.jpg", "https://upload.cc/i1/2022/01/17/JvuE3W.jpg", 
+                "https://upload.cc/i1/2022/01/17/4WBc1U.jpg", "https://upload.cc/i1/2022/01/17/QrtYSB.jpg", 
+                "https://upload.cc/i1/2022/01/17/altKmr.jpg", "https://upload.cc/i1/2022/01/17/q2utLr.jpg", 
+                "https://upload.cc/i1/2022/01/17/0YZ79Q.jpg", "https://upload.cc/i1/2022/01/17/h79NRv.jpg", 
+                "https://upload.cc/i1/2022/01/17/i1raVd.jpg", "https://upload.cc/i1/2022/01/17/oIkgJF.jpg", 
+                "https://upload.cc/i1/2022/01/17/fJzHTu.jpg", "https://upload.cc/i1/2022/01/17/uWdMlF.jpg", 
+                "https://upload.cc/i1/2022/01/17/mUXqcG.jpg", "https://upload.cc/i1/2022/01/17/1OmlNC.jpg", 
+                "https://upload.cc/i1/2022/01/17/2UDja3.jpg", "https://upload.cc/i1/2022/01/17/1nS3rh.jpg", 
+                "https://upload.cc/i1/2022/01/17/A4yXMK.jpg", "https://upload.cc/i1/2022/01/17/E98BJb.jpg", 
+                "https://upload.cc/i1/2022/01/17/Lxfg7a.jpg", "https://upload.cc/i1/2022/01/17/SBN2M8.jpg", 
+                "https://upload.cc/i1/2022/01/17/ekRdHv.jpg", "https://upload.cc/i1/2022/01/17/q9T5hz.jpg", 
+                "https://upload.cc/i1/2022/01/17/lsPepV.jpg", "https://upload.cc/i1/2022/01/17/TAOELK.jpg", 
+                "https://upload.cc/i1/2022/01/17/JYb1WP.jpg", "https://upload.cc/i1/2022/01/17/Gsuft5.jpg", 
+                "https://upload.cc/i1/2022/01/17/QEfzla.jpg", "https://upload.cc/i1/2022/01/17/X9lqpJ.jpg", 
+                "https://upload.cc/i1/2022/01/17/fZkeY6.jpg", "https://upload.cc/i1/2022/01/17/oPl7fd.jpg", 
+                "https://upload.cc/i1/2022/01/17/Vg3Er1.jpg"];
+            var hardPic2 = ["https://upload.cc/i1/2022/01/17/NSvP2Y.jpg", "https://upload.cc/i1/2022/01/17/hcBUZP.jpg", 
+                "https://upload.cc/i1/2022/01/17/Y8tzlk.jpg", "https://upload.cc/i1/2022/01/17/4T9k62.jpg", 
+                "https://upload.cc/i1/2022/01/17/qoP3wB.jpg", "https://upload.cc/i1/2022/01/17/kz3FLq.jpg", 
+                "https://upload.cc/i1/2022/01/17/RJPymW.jpg", "https://upload.cc/i1/2022/01/17/VgHkZq.jpg", 
+                "https://upload.cc/i1/2022/01/17/bBQxD7.jpg", "https://upload.cc/i1/2022/01/17/PTAiqD.jpg", 
+                "https://upload.cc/i1/2022/01/17/n2aGJP.jpg", "https://upload.cc/i1/2022/01/17/kbhtqz.jpg", 
+                "https://upload.cc/i1/2022/01/17/ViC4cb.jpg", "https://upload.cc/i1/2022/01/17/dIoBif.jpg", 
+                "https://upload.cc/i1/2022/01/17/xVhm0e.jpg", "https://upload.cc/i1/2022/01/17/gCPIz2.jpg", 
+                "https://upload.cc/i1/2022/01/17/uNzDXW.jpg", "https://upload.cc/i1/2022/01/17/slEDVC.jpg", 
+                "https://upload.cc/i1/2022/01/17/F7nhxT.jpg", "https://upload.cc/i1/2022/01/17/c5vUO2.jpg", 
+                "https://upload.cc/i1/2022/01/17/u7tXpS.jpg", "https://upload.cc/i1/2022/01/17/KURPlt.jpg", 
+                "https://upload.cc/i1/2022/01/17/qMCrfg.jpg", "https://upload.cc/i1/2022/01/17/Ph3tsU.jpg", 
+                "https://upload.cc/i1/2022/01/17/cfP8Ws.jpg", "https://upload.cc/i1/2022/01/17/6AWsHD.jpg", 
+                "https://upload.cc/i1/2022/01/17/vf094B.jpg", "https://upload.cc/i1/2022/01/17/cQnZ0b.jpg", 
+                "https://upload.cc/i1/2022/01/17/eExCY4.jpg", "https://upload.cc/i1/2022/01/17/xKUTzn.jpg", 
+                "https://upload.cc/i1/2022/01/17/1ZSLHG.jpg", "https://upload.cc/i1/2022/01/17/xX8LYn.jpg", 
+                "https://upload.cc/i1/2022/01/17/PS2F8p.jpg", "https://upload.cc/i1/2022/01/17/nUxuOA.jpg", 
+                "https://upload.cc/i1/2022/01/17/jBmKev.jpg", "https://upload.cc/i1/2022/01/17/z70rc1.jpg", 
+                "https://upload.cc/i1/2022/01/17/9LtzOw.jpg", "https://upload.cc/i1/2022/01/17/F5T8l6.jpg", 
+                "https://upload.cc/i1/2022/01/17/px6UcC.jpg", "https://upload.cc/i1/2022/01/17/0jGilB.jpg", 
+                "https://upload.cc/i1/2022/01/17/nw8f2d.jpg", "https://upload.cc/i1/2022/01/17/u0JkOs.jpg", 
+                "https://upload.cc/i1/2022/01/17/Jg5jQx.jpg", "https://upload.cc/i1/2022/01/17/m5nFkT.jpg", 
+                "https://upload.cc/i1/2022/01/17/I8VJ9c.jpg", "https://upload.cc/i1/2022/01/17/Puwfsv.jpg", 
+                "https://upload.cc/i1/2022/01/17/qRl6HC.jpg", "https://upload.cc/i1/2022/01/17/JzjRAB.jpg", 
+                "https://upload.cc/i1/2022/01/17/8ZiGA3.jpg"];
+            var hardPic3 = ["https://upload.cc/i1/2022/01/17/WQ2XEi.jpg", "https://upload.cc/i1/2022/01/17/JEQMxC.jpg", 
+                "https://upload.cc/i1/2022/01/17/o7kO05.jpg", "https://upload.cc/i1/2022/01/17/7MY24w.jpg", 
+                "https://upload.cc/i1/2022/01/17/bCNkLg.jpg", "https://upload.cc/i1/2022/01/17/Jb854g.jpg", 
+                "https://upload.cc/i1/2022/01/17/omV63z.jpg", "https://upload.cc/i1/2022/01/17/repV2X.jpg", 
+                "https://upload.cc/i1/2022/01/17/BGS0ip.jpg", "https://upload.cc/i1/2022/01/17/bju85I.jpg", 
+                "https://upload.cc/i1/2022/01/17/BYNIay.jpg", "https://upload.cc/i1/2022/01/17/nJ743w.jpg", 
+                "https://upload.cc/i1/2022/01/17/vDbhKf.jpg", "https://upload.cc/i1/2022/01/17/M89nSO.jpg", 
+                "https://upload.cc/i1/2022/01/17/a8mNVi.jpg", "https://upload.cc/i1/2022/01/17/u4Gfoc.jpg", 
+                "https://upload.cc/i1/2022/01/17/J3tpkB.jpg", "https://upload.cc/i1/2022/01/17/c5SeDo.jpg", 
+                "https://upload.cc/i1/2022/01/17/euO5rY.jpg", "https://upload.cc/i1/2022/01/17/WDgpNZ.jpg", 
+                "https://upload.cc/i1/2022/01/17/p6WEBU.jpg", "https://upload.cc/i1/2022/01/17/gMJQoW.jpg", 
+                "https://upload.cc/i1/2022/01/17/E5t7ym.jpg", "https://upload.cc/i1/2022/01/17/lViwYm.jpg", 
+                "https://upload.cc/i1/2022/01/17/TtYRID.jpg", "https://upload.cc/i1/2022/01/17/zOpu8S.jpg", 
+                "https://upload.cc/i1/2022/01/17/p7d5su.jpg", "https://upload.cc/i1/2022/01/17/du8UaN.jpg", 
+                "https://upload.cc/i1/2022/01/17/jCcL52.jpg", "https://upload.cc/i1/2022/01/17/A8WYIm.jpg", 
+                "https://upload.cc/i1/2022/01/17/qWNY8e.jpg", "https://upload.cc/i1/2022/01/17/9iTqYa.jpg", 
+                "https://upload.cc/i1/2022/01/17/3nEYAz.jpg", "https://upload.cc/i1/2022/01/17/txIdli.jpg", 
+                "https://upload.cc/i1/2022/01/17/iCm3aE.jpg", "https://upload.cc/i1/2022/01/17/WvzBT7.jpg", 
+                "https://upload.cc/i1/2022/01/17/IhVHvd.jpg", "https://upload.cc/i1/2022/01/17/IzJNnZ.jpg", 
+                "https://upload.cc/i1/2022/01/17/owOY8y.jpg", "https://upload.cc/i1/2022/01/17/5XE0qF.jpg", 
+                "https://upload.cc/i1/2022/01/17/MVuZQl.jpg", "https://upload.cc/i1/2022/01/17/DTG3KX.jpg", 
+                "https://upload.cc/i1/2022/01/17/SlWrFf.jpg", "https://upload.cc/i1/2022/01/17/IjJCxG.jpg", 
+                "https://upload.cc/i1/2022/01/17/zQXPvr.jpg", "https://upload.cc/i1/2022/01/17/BPuDK4.jpg", 
+                "https://upload.cc/i1/2022/01/17/Q2vkYo.jpg", "https://upload.cc/i1/2022/01/17/ShZKD8.jpg", 
+                "https://upload.cc/i1/2022/01/17/S8R6p9.jpg"];
+            
+            function setVar(tempDiff,tempPic, diff){
+                if(tempPic == "1") currentPuzNum = 1;
+                else if(tempPic == "2") currentPuzNum = 2;
+                else if(tempPic == "3") currentPuzNum = 3;
+                putPic(tempDiff,tempPic, diff);
+            }
+            function start(){
+                let tempDiff = localStorage.getItem("diff");
+                let tempPic = localStorage.getItem("check");
+                let diff;
+                if(tempDiff == "easy"){
+                    currentLevel = 1;
+                    diff = 3;
+                    setVar(tempDiff,tempPic, diff);
+                } 
+                else if(tempDiff == "medium"){
+                    diff = 5;
+                    setVar(tempDiff,tempPic, diff);
+                }
+                else if(tempDiff == "hard"){
+                    diff = 7;
+                    setVar(tempDiff,tempPic, diff);
+                } 
+                //set picture
+                
+                //console.log(storeInOutput);
+                //console.log(resultOutput);
+
+                document.getElementById("storeIn").innerHTML = storeInOutput;
+                document.getElementById("result").innerHTML = resultOutput;
+                //document.querySelector('img').setAttribute("width", 630/diff+'px');
+                //document.querySelector('img').setAttribute("height", 630/diff+'px');
+
+                localStorage.clear();
+            }
+            function showGamePuz(gamePic, diff){
+                for(let i=1; i<=diff*diff; i++){
+                    storeInOutput += '<div class="putPic' + diff + '" ondrop="Drop(event)" ondragover="AllowDrop(event)"><img id="p' + i + ' class="img' + diff + '" ondragstart="Drag(event)" src="' + gamePic[i-1] + '"></div>';
+                    resultOutput += '<div id="box' + i + '" class="box' + diff + '" ondrop="Drop(event)" ondragover="AllowDrop(event)"></div>';
+                }
+            }
+            function shuffle(array){
+                return array.sort(() => Math.random() - 0.5);
+            }
+            function putPic(level,num, diff){
+                console.log(level +"/"+num+"/"+diff);
+                //let setPic;
+                if(level == "easy"){
+                    if(num == 1){
+                        //let setPic = easyPic1;
+                        //console.log(easyPic1);
+                        rightPic = easyPic1.slice(0);
+                        shuffle(easyPic1);
+                        //console.log(easyPic1);
+                        //console.log(gamePic);
+                        showGamePuz(easyPic1, diff);
+                    }
+                    else if(num == 2){
+                        //let setPic = easyPic2;
+                        rightPic = easyPic2.slice(0);
+                        shuffle(easyPic2);
+                        showGamePuz(easyPic2, diff);
+                    }
+                    else if(num ==3){
+                        //let setPic = easyPic3;
+                        rightPic = easyPic3.slice(0);
+                        shuffle(easyPic3);
+                        showGamePuz(easyPic3, diff);
+                    }
+                }
+                else if(level == "medium"){
+                    if(num == 1){
+                        //let setPic = mediumPic1;
+                        rightPic = mediumPic1.slice(0);
+                        shuffle(mediumPic1);
+                        showGamePuz(mediumPic1, diff);
+                    }
+                    else if(num == 2){
+                        //let setPic = mediumPic2;
+                        rightPic = mediumPic2.slice(0);
+                        shuffle(mediumPic2);
+                        showGamePuz(mediumPic2, diff);
+                    }
+                    else if(num ==3){
+                        //let setPic = mediumPic3;
+                        grightPic = mediumPic3.slice(0);
+                        shuffle(mediumPic3);
+                        showGamePuz(mediumPic3, diff);
+                    }
+                }
+                else if(level == "hard"){
+                    if(num == 1){
+                        //let setPic = hardPic1;
+                        rightPic = hardPic1.slice(0);
+                        shuffle(hardPic1);
+                        showGamePuz(hardPic1, diff);
+                    }
+                    else if(num == 2){
+                        //let setPic = hardPic2;
+                        rightPic = hardPic2.slice(0);
+                        shuffle(hardPic2);
+                        showGamePuz(hardPic2, diff);
+                    }
+                    else if(num ==3){
+                        //let setPic = hardPic3;
+                        rightPic = hardPic3.slice(0);
+                        shuffle(hardPic3);
+                        showGamePuz(hardPic3, diff);
+                    }
+                } 
+            }
+            
+            function AllowDrop(e){
+                e.preventDefault();
+            }
+            function Drag(e){
+                if(!isInterval){
+                    isInterval = true;
+                    interval = setInterval(function(){
+                        sec++;
+                        if(sec>=60){
+                            sec = 0;
+                            min++;
+                        }
+                        let output = "時間: "+min+"分"+sec+"秒";
+                        document.getElementById("time").innerHTML = output;
+                    }, 1000);
+                }
+                e.dataTransfer.setData("text/plain",e.currentTarget.id);
+            }
+            function Drop(e){
+                /*if(e.currentTarget.childNodes != null){
+                    return;
+                }*/
+                console.log("drop");
+                e.preventDefault();
+                var data=e.dataTransfer.getData("text/plain");
+                e.currentTarget.appendChild(document.getElementById(data));
+                if(isWin()){
+                    console.log("con");
+                    clearInterval(interval);
+                    isInterval = false;
+                }
+            }
+            function isWin(){
+                //console.log("iswin");
+                //if(currentPuzNum == 1){
+                    //if(currentLevel == 1){
+                        for(let i=1; i<=9; i++){
+                            let puzzlePic = document.getElementById("box"+i).childNodes;
+                            //console.log("puzzlePic: "+puzzlePic);
+                            if(puzzlePic.length > 0){
+                                console.log("puzzLen: " + puzzlePic.length);
+                                console.log("puzzleSRC: " + puzzlePic[0].getAttribute("src"));
+                                console.log("originSRC: " + rightPic[i-1])
+                                if(puzzlePic[0].getAttribute("src") != rightPic[i-1]){
+                                    console.log("1");
+                                    return false;
+                                }
+                            }else{
+                                console.log("2")
+                                return false;
+                            }
+                        }
+                    //}
+                   
+                //}
+                return true;
+            }
+            window.addEventListener("load", start, false);
+        </script>
+    </head>
+    <body>
+        <div class="storeOut" id="store">
+            <div class="storeIn" id="storeIn">
+                
+            </div>
+        </div>
+        <div class="time" id="time">時間:</div>
+        <div class="head" id="head">請將拼圖放置於正確的位置上</div>
+        <div class="result" id="result">
+
+        </div>
+        <div class="winWindow" id="winWindow"></div>
+    </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>拼圖遊戲</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body{
+                background-color: #86c3e9;
+            }
+            .div1{
+                background-color: #86c3e9;
+                text-align: center;
+                display: none;
+            }
+            .div2{
+                position: absolute;
+                z-index: 2;
+                display: none;
+                width: 90%;
+                height: 90%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                background-color: white;
+                border-radius: 30px;
+                text-align: center;
+            }
+            h1{
+                font-size:100px;
+            }
+            h2{
+                font-size: 50px;
+            }
+            .homeButton{
+                font-size: 30px;
+                background-color: #d0e7f6;
+                width: 500px;
+                height: 50px;
+                display: block;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                margin-top: 30px;
+                border-radius: 30px;
+            }
+            .homeButton:hover{
+                box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+            }
+            .closeButton{
+                font-size: 25px;
+                background-color: #86c3e9;
+                position: absolute;
+                top: 4%;
+                right: 3%;
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+            }
+            .textDiv{
+                width: 90%;
+                height: 60%;
+                text-align: left;
+                overflow-y: auto;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 25px;
+            }
+            a{
+                font-size: 30px;
+                color: black;
+                text-decoration-line: none;
+            }
+            #loading{
+                font-family: Noto Sans TC, Perpetua, serif;
+                font-size: 45px;
+                color: black;
+                text-align: center;
+            }
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#load").animate({width:'20%'});
+                $("#load").animate({width:'40%'});
+                $("#load").animate({width:'60%'});
+                $("#load").animate({width:'80%'});
+                $("#load").animate({width:'100%'});
+                start();
+            });
+            function start(){
+                window.setTimeout(function (){
+                    $('#loading').hide();
+                    $('.div1').show();
+                },2000)
+            }
+            
+            $(document).ready(function(){               //打開遊戲說明畫面
+                $("#instruction").click(function(){
+                    $("#instructionPage").fadeIn(800);
+                    $('.div1').hide();
+                });
+            });
+            $(document).ready(function(){               //關閉遊戲說明畫面
+                $("#closeIP").click(function(){
+                    $("#instructionPage").fadeOut(800);
+                    $('.div1').show();
+                });
+            });
+            $(document).ready(function(){               //打開開發人員畫面
+                $("#developer").click(function(){
+                    $("#developerPage").fadeIn(800);
+                    $('.div1').hide();
+                });
+            });
+            $(document).ready(function(){               //關閉開發人員畫面
+                $("#closeDP").click(function(){
+                    $("#developerPage").fadeOut(800);
+                    $('.div1').show();
+                });
+            });
+            $(document).ready(function(){               //開始遊戲按鈕
+                $("#startGame").click(function(){
+                    $(location).attr('href', 'selectCheckPoint_v2.html');//待改路徑
+                });
+            });
+        </script>
+        <div id='loading' >
+            頁面載入中
+            <div id='load' style="background:rgb(160, 75, 75);height:10px;width:0px;position:absolute;"></div> 
+        </div>
+    </head>
+    <body>
+        <div class="div1">
+            <h1>拼圖遊戲</h1>
+            <input class="homeButton" id="startGame" type="button" value="開始遊戲" style="margin-top: 200px;">
+            <input class="homeButton" id="instruction" type="button" value="遊戲說明">
+            <input class="homeButton" id="developer" type="button" value="開發人員">
+            <a href="#"><input class="homeButton" id="ppt" type="button" value="說明文件PPT"></a>
+        </div>
+        <div id="instructionPage" class="div2">
+            <input class="closeButton" id="closeIP" type="button" value="X">
+            <h2>遊戲說明</h2>
+            <div class="textDiv">
+                <p>測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</p>
+            </div>
+        </div>
+        <div id="developerPage" class="div2">
+            <input class="closeButton" id="closeDP" type="button" value="X">
+            <h2>開發人員</h2>
+            <div class="textDiv">
+                <p>測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字測試文字</p>
+            </div>
+        </div>
+    </body>
+</html>
+<!--
+
+    
+-->

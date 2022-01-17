@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>拼圖遊戲</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+        <style type="text/css">
+            body{
+                background-color: #86c3e9;
+            }
+            .div1{
+                background-color: #86c3e9;
+                text-align: center;
+            }
+            img{
+                width: 300px;
+                height: 300px;
+                border-radius: 30px;
+            }
+            input[type="radio"] {
+                display: none; 
+            }
+            input:checked + .button {
+                background: #5e7380; 
+                color: #fff; 
+                cursor: default; 
+            }
+            .button {
+                display: inline-block; 
+                margin: 0 5px 10px 0; 
+                padding: 10px 100px; 
+                background: #f7f7f7; 
+                color: #333; 
+                cursor: pointer; 
+            }
+            .button:hover {
+                background: #bbb; 
+                color: #fff; 
+            }
+            .picture{
+                cursor: pointer; 
+                margin: 10px 10px 10px 0; 
+                padding: 145px 5px; 
+            }
+            .round {
+                border-radius: 5px; 
+            }
+            input:checked + .picture { 
+                cursor: default; 
+                border-color: #5e7380;
+                border-style: solid;
+                border-width: thick;
+                border-radius: 30px;
+            }
+            #selectCheckPoint{
+                position: absolute;
+                height: 50%;
+                width: 100%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            }
+            #enter{
+                position: absolute;
+                bottom: 15%;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 10px 30px;
+            }
+        </style>
+        <script>
+            function go(){
+                var diffRadio = document.getElementsByName("difficulty");
+                var checkRadio = document.getElementsByName("checkPoint");
+                for(let i=0; i<diffRadio.length; i++){
+                    if(diffRadio[i].checked){
+                        localStorage.setItem("diff", diffRadio[i].value);
+                    }
+                }
+                for(let i=0; i<checkRadio.length; i++){
+                    if(checkRadio[i].checked){
+                        localStorage.setItem("check", checkRadio[i].value);
+                    }
+                }
+                if(localStorage.getItem("diff") == "easy") window.location.href='playEasy.html';
+                if(localStorage.getItem("diff") == "medium") window.location.href='playMedium.html';
+                if(localStorage.getItem("diff") == "hard") window.location.href='playHard.html';
+                //window.location.href='playHard.html';
+            }
+        </script>
+    </head>
+    <body>
+        <div class="div1">
+            <h1>選擇關卡</h1>
+            <div id="selectDifficulty">
+                <label><input type="radio" name="difficulty" value="easy" checked="checked"><span class="round button">簡單</span></label>
+                <label><input type="radio" name="difficulty" value="medium"><span class="round button">普通</span></label>
+                <label><input type="radio" name="difficulty" value="hard"><span class="round button">困難</span></label>
+            </div>
+            
+            <div id="selectCheckPoint">
+                <label><input type="radio" name="checkPoint" value="1" checked="checked"><span class="round picture"><img src="https://upload.cc/i1/2022/01/17/kvtDJQ.jpg"></span></label>
+                <label><input type="radio" name="checkPoint" value="2"><span class="round picture"><img src="https://upload.cc/i1/2022/01/17/kb5Lm3.jpg"></span></label>
+                <label><input type="radio" name="checkPoint" value="3"><span class="round picture"><img src="https://upload.cc/i1/2022/01/17/2dWZa9.jpg"></span></label>
+                <!--
+                <input type="radio" name="checkPoint" value="4"><label class="btn btn-primary"><input type="file" id="profile_pic" name="profile_pic" accept=".jpg, .jpeg, .png" value="上傳圖片" style="display:none;">上傳圖片</label>
+                -->
+            </div>
+            <label class="btn btn-primary" id="enter" onclick="go()"><input id="enterButton" class="btn btn-primary" type="button" value="Start" style="display: none;">Start</label>
+        </div>
+    </body>
+</html>
