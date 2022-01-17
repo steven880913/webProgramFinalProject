@@ -11,6 +11,7 @@
             .div1{
                 background-color: #86c3e9;
                 text-align: center;
+                display: none;
             }
             img{
                 width: 300px;
@@ -67,8 +68,30 @@
                 transform: translateX(-50%);
                 padding: 10px 30px;
             }
+            #loading{
+                font-family: Noto Sans TC, Perpetua, serif;
+                font-size: 45px;
+                color: black;
+                text-align: center;
+            }
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
+            $(document).ready(function(){
+                $("#load").animate({width:'20%'});
+                $("#load").animate({width:'40%'});
+                $("#load").animate({width:'60%'});
+                $("#load").animate({width:'80%'});
+                $("#load").animate({width:'100%'});
+                start();
+            });
+            function start(){
+                window.setTimeout(function (){
+                    $('#loading').hide();
+                    $('.div1').show();
+                },2000)
+            }
+
             function go(){
                 var diffRadio = document.getElementsByName("difficulty");
                 var checkRadio = document.getElementsByName("checkPoint");
@@ -82,12 +105,16 @@
                         localStorage.setItem("check", checkRadio[i].value);
                     }
                 }
-                if(localStorage.getItem("diff") == "easy") window.location.href='https://steven880913.github.io/webProgramFinalProject/playEasy.html';
-                if(localStorage.getItem("diff") == "medium") window.location.href='https://steven880913.github.io/webProgramFinalProject/playMedium.html';
-                if(localStorage.getItem("diff") == "hard") window.location.href='https://steven880913.github.io/webProgramFinalProject/playHard.html';
+                if(localStorage.getItem("diff") == "easy") window.location.href='playEasy.html';
+                if(localStorage.getItem("diff") == "medium") window.location.href='playMedium.html';
+                if(localStorage.getItem("diff") == "hard") window.location.href='playHard.html';
                 //window.location.href='playHard.html';
             }
         </script>
+        <div id='loading' >
+            頁面載入中
+            <div id='load' style="background:rgb(160, 75, 75);height:10px;width:0px;position:absolute;"></div> 
+        </div>
     </head>
     <body>
         <div class="div1">
